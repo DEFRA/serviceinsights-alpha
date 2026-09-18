@@ -23,7 +23,7 @@ describe('#errors', () => {
     })
 
     expect(result).toEqual(
-      expect.stringContaining('Page not found | serviceinsights-alpha')
+      expect.stringContaining('Page not found | Service Insights')
     )
     expect(statusCode).toBe(statusCodes.notFound)
   })

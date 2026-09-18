@@ -4,7 +4,12 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_serviceinsights-alpha&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=DEFRA_serviceinsights-alpha)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_serviceinsights-alpha&metric=coverage)](https://sonarcloud.io/summary/new_code?id=DEFRA_serviceinsights-alpha)
 
-Core delivery platform Node.js Frontend Template.
+Service Insights — the Defra-branded reader for the service directory. It renders
+the service records held in the [serviceinsights-store](https://github.com/DEFRA/serviceinsights-store)
+API: a searchable, filterable list of services and a detail page for each one.
+Built on the CDP Node.js frontend template with the `@defra/frontend` brand.
+
+The store's base URL is configured with `BACKEND_API_URL`.
 
 - [Requirements](#requirements)
   - [Node.js](#nodejs)

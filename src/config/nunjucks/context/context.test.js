@@ -62,16 +62,11 @@ describe('context and cache', () => {
           navigation: [
             {
               current: true,
-              text: 'Home',
+              text: 'Services',
               href: '/'
-            },
-            {
-              current: false,
-              text: 'About',
-              href: '/about'
             }
           ],
-          serviceName: 'serviceinsights-alpha',
+          serviceName: 'Service Insights',
           serviceUrl: '/'
         })
       })
@@ -151,16 +146,11 @@ describe('context and cache', () => {
           navigation: [
             {
               current: true,
-              text: 'Home',
+              text: 'Services',
               href: '/'
-            },
-            {
-              current: false,
-              text: 'About',
-              href: '/about'
             }
           ],
-          serviceName: 'serviceinsights-alpha',
+          serviceName: 'Service Insights',
           serviceUrl: '/'
         })
       })
