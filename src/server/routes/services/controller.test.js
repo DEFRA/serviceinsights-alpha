@@ -79,4 +79,27 @@ describe('#servicesController', () => {
     // Organisations with no records are not offered.
     expect(orgValues).not.toContain('forestry_commission')
   })
+
+  test('shows a completeness column and counts incomplete records', async () => {
+    const h = mockH()
+    await servicesController.handler({ query: {} }, h)
+    const model = h.view.mock.calls[0][1]
+
+    // Both sample records lack owner/contact data, so both are incomplete.
+    expect(model.incompleteTotal).toBe(2)
+    expect(model.rows[0][4].html).toContain('missing')
+  })
+
+  test('filters to incomplete services', async () => {
+    const h = mockH()
+    await servicesController.handler({ query: { complete: 'incomplete' } }, h)
+    expect(h.view.mock.calls[0][1].shownCount).toBe(2)
+  })
+
+  test('filters to complete services', async () => {
+    const h = mockH()
+    await servicesController.handler({ query: { complete: 'complete' } }, h)
+    // Neither sample record is complete.
+    expect(h.view.mock.calls[0][1].shownCount).toBe(0)
+  })
 })

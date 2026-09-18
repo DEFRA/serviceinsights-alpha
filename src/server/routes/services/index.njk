@@ -8,13 +8,16 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Services</h1>
-      <p class="govuk-body-l govuk-!-margin-bottom-6">
+      <p class="govuk-body-l govuk-!-margin-bottom-2">
         {{ shownCount }} of {{ totalCount }} services{% if filtered %} (filtered){% endif %}
+      </p>
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        {{ incompleteTotal }} of {{ totalCount }} are missing data the management tool will collect.
       </p>
 
       <form method="get" action="/" class="govuk-!-margin-bottom-6">
         <div class="govuk-grid-row">
-          <div class="govuk-grid-column-one-half">
+          <div class="govuk-grid-column-two-thirds">
             {{ govukInput({
               label: { text: "Search", classes: "govuk-label--s" },
               id: "q", name: "q", type: "search", value: q,
@@ -22,16 +25,24 @@
               attributes: { placeholder: "Name or organisation" }
             }) }}
           </div>
-          <div class="govuk-grid-column-one-quarter">
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-third">
             {{ govukSelect({
               label: { text: "Organisation", classes: "govuk-label--s" },
               id: "org", name: "org", items: orgItems
             }) }}
           </div>
-          <div class="govuk-grid-column-one-quarter">
+          <div class="govuk-grid-column-one-third">
             {{ govukSelect({
               label: { text: "Phase", classes: "govuk-label--s" },
               id: "phase", name: "phase", items: phaseItems
+            }) }}
+          </div>
+          <div class="govuk-grid-column-one-third">
+            {{ govukSelect({
+              label: { text: "Completeness", classes: "govuk-label--s" },
+              id: "complete", name: "complete", items: completeItems
             }) }}
           </div>
         </div>
@@ -47,7 +58,8 @@
             { text: "Service" },
             { text: "Organisation" },
             { text: "Delivery group" },
-            { text: "Phase" }
+            { text: "Phase" },
+            { text: "Completeness" }
           ],
           rows: rows
         }) }}

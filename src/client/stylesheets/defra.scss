@@ -20,3 +20,9 @@
 .app-rich-text p:last-child {
   margin-bottom: 0;
 }
+
+// Muted placeholder for a field that has no value yet.
+.app-empty {
+  color: #6f777b;
+  font-style: italic;
+}

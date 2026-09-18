@@ -7,6 +7,7 @@ import {
   label,
   phaseTagClass
 } from '#/server/common/helpers/labels.js'
+import { completeness } from '#/server/common/helpers/completeness.js'
 
 // Build the options for a filter <select> from the values actually present in
 // the data, so we never offer an empty filter.
@@ -20,11 +21,23 @@ function selectItems(allText, map, present, selected) {
   return items
 }
 
+function completenessCell(c) {
+  if (c.complete) {
+    return {
+      html: '<strong class="govuk-tag govuk-tag--green">Complete</strong>'
+    }
+  }
+  return {
+    html: `<strong class="govuk-tag govuk-tag--grey">${c.missingCount} missing</strong>`
+  }
+}
+
 export const servicesController = {
   async handler(request, h) {
     const q = (request.query.q || '').trim()
     const org = (request.query.org || '').trim()
     const phase = (request.query.phase || '').trim()
+    const complete = (request.query.complete || '').trim()
 
     const all = (await fetchJson('/service-records?limit=1000')) || []
 
@@ -35,6 +48,8 @@ export const servicesController = {
     const filtered = all.filter((s) => {
       if (org && s.owningOrganisation !== org) return false
       if (phase && s.lifecyclePhase !== phase) return false
+      if (complete === 'complete' && !completeness(s).complete) return false
+      if (complete === 'incomplete' && completeness(s).complete) return false
       if (needle) {
         const haystack = [
           s.name,
@@ -58,9 +73,12 @@ export const servicesController = {
         },
         { text: label(OWNING_ORGANISATION, s.owningOrganisation) },
         { text: label(DELIVERY_GROUP, s.deliveryGroup) },
-        { html: phaseTag }
+        { html: phaseTag },
+        completenessCell(completeness(s))
       ]
     })
+
+    const incompleteTotal = all.filter((s) => !completeness(s).complete).length
 
     return h.view('services/index', {
       pageTitle: 'Services',
@@ -78,9 +96,23 @@ export const servicesController = {
         phasesPresent,
         phase
       ),
+      completeItems: [
+        { value: '', text: 'All services' },
+        {
+          value: 'incomplete',
+          text: 'Incomplete only',
+          selected: complete === 'incomplete'
+        },
+        {
+          value: 'complete',
+          text: 'Complete only',
+          selected: complete === 'complete'
+        }
+      ],
       shownCount: filtered.length,
       totalCount: all.length,
-      filtered: Boolean(q || org || phase)
+      incompleteTotal,
+      filtered: Boolean(q || org || phase || complete)
     })
   }
 }
