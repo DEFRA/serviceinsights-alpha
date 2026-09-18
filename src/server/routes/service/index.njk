@@ -16,7 +16,18 @@
         {% if s.phaseName %}{{ govukTag({ text: s.phaseName, classes: s.phaseTagClass }) }}{% endif %}
       </h1>
 
-      {% if s.description %}<p class="govuk-body-l">{{ s.description }}</p>{% endif %}
+      {% if completeness.complete %}
+        <p class="govuk-!-margin-bottom-6">
+          {{ govukTag({ text: "Complete record", classes: "govuk-tag--green" }) }}
+        </p>
+      {% else %}
+        <div class="govuk-inset-text govuk-!-margin-top-0">
+          {{ govukTag({ text: completeness.missingCount + " of " + completeness.total + " expected fields missing", classes: "govuk-tag--grey" }) }}
+          <p class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-0">
+            Still to be collected: {{ completeness.missing | join(", ") }}.
+          </p>
+        </div>
+      {% endif %}
 
       {{ govukSummaryList({ rows: summaryRows }) }}
 
