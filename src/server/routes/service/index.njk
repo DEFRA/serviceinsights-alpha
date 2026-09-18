@@ -1,0 +1,30 @@
+{% extends 'layouts/page.njk' %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "All services", href: "/" }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if s.owningOrganisation %}<span class="govuk-caption-l">{{ s.owningOrganisation }}</span>{% endif %}
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">
+        {{ s.name }}
+        {% if s.phaseName %}{{ govukTag({ text: s.phaseName, classes: s.phaseTagClass }) }}{% endif %}
+      </h1>
+
+      {% if s.description %}<p class="govuk-body-l">{{ s.description }}</p>{% endif %}
+
+      {{ govukSummaryList({ rows: summaryRows }) }}
+
+      {% if s.updatedAt %}
+        <p class="govuk-body-s govuk-!-margin-top-6">
+          Last updated {{ s.updatedAt | formatDate }}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

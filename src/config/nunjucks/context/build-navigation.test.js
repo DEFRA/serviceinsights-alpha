@@ -11,29 +11,25 @@ describe('#buildNavigation', () => {
     ).toEqual([
       {
         current: false,
-        text: 'Home',
+        text: 'Services',
         href: '/'
-      },
-      {
-        current: false,
-        text: 'About',
-        href: '/about'
       }
     ])
   })
 
-  test('Should provide expected highlighted navigation details', () => {
+  test('Should highlight Services on the home path', () => {
     expect(buildNavigation(mockRequest({ path: '/' }))).toEqual([
       {
         current: true,
-        text: 'Home',
+        text: 'Services',
         href: '/'
-      },
-      {
-        current: false,
-        text: 'About',
-        href: '/about'
       }
     ])
+  })
+
+  test('Should highlight Services on a service detail path', () => {
+    expect(
+      buildNavigation(mockRequest({ path: '/service/abc' }))[0].current
+    ).toBe(true)
   })
 })

@@ -3,6 +3,8 @@
 {# Import GOVUK components globally #}
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+{% from "govuk/components/generic-header/macro.njk" import govukGenericHeader %}
+{% from "defra/components/footer/macro.njk" import defraFooter %}
 
 {# Import custom components globally #}
 {% from "heading/macro.njk" import appHeading %}
@@ -18,18 +20,15 @@
 {% endblock %}
 
 {% block head %}
-  <link href="{{ getAssetPath('src/client/stylesheets/application.scss') }}" rel="stylesheet">
+  <link href="{{ getAssetPath('src/client/stylesheets/defra.scss') }}" rel="stylesheet">
 {% endblock %}
 
 {% block header %}
-  {# serviceName being used in govukHeader will be @deprecated in v6. It has moved to govukServiceNavigation - https://github.com/alphagov/govuk-frontend/blob/main/CHANGELOG.md#move-service-name-and-navigation-links-from-the-govuk-header-to-service-navigation-component #}
-  {{ govukHeader({
-    homepageUrl: "https://www.gov.uk/",
-    classes: "app-header",
-    containerClasses: "govuk-width-container",
-    serviceName: serviceName,
-    serviceUrl: serviceUrl,
-    useTudorCrown: true
+  {# Defra green header: the upstream generic header restyled by @defra/frontend
+     tokens (not the GOV.UK crown), with the service name as the wordmark. #}
+  {{ govukGenericHeader({
+    logoText: serviceName,
+    url: serviceUrl or "/"
   }) }}
 
   {{ govukServiceNavigation({
@@ -52,23 +51,12 @@
 {% block content %}{% endblock %}
 
 {% block footer %}
-  {{ govukFooter({
-    meta: {
-      items: [
-        {
-          href: "https://www.gov.uk/help/privacy-notice",
-          text: "Privacy"
-        },
-        {
-          href: "https://www.gov.uk/help/cookies",
-          text: "Cookies"
-        },
-        {
-          href: "https://www.gov.uk/help/accessibility-statement",
-          text: "Accessibility statement"
-        }
-      ]
-    }
+  {{ defraFooter({
+    items: [
+      { href: "#", text: "Accessibility statement" },
+      { href: "#", text: "Cookies" },
+      { href: "#", text: "Privacy" }
+    ]
   }) }}
 {% endblock %}
 

@@ -1,0 +1,22 @@
+// Defra-branded stylesheet: @defra/frontend is a settings layer over
+// govuk-frontend v6 ("defra" brand mode — system fonts, Defra tokens, green
+// header). This replaces the stock application.scss so govuk is compiled once,
+// with the Defra tokens applied. Served same-origin, so CSP style-src 'self'
+// is satisfied.
+@import '@defra/frontend/sass';
+
+// App-specific styles for the directory pages.
+.app-internal-flag {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.875rem;
+  color: #505a5f;
+}
+
+.app-rich-text {
+  overflow-wrap: anywhere;
+}
+
+.app-rich-text p:last-child {
+  margin-bottom: 0;
+}
