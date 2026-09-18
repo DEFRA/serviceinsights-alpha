@@ -14,6 +14,9 @@ ENV PORT=${PORT}
 EXPOSE ${PORT} ${PORT_DEBUG}
 
 COPY --chown=node:node --chmod=755 package*.json ./
+# vendor/ holds the @defra/frontend tarball referenced as a file: dependency,
+# so it must be present before install.
+COPY --chown=node:node --chmod=755 vendor ./vendor
 RUN npm install
 COPY --chown=node:node --chmod=755 . .
 RUN npm run build:frontend
@@ -39,6 +42,7 @@ RUN apk add --no-cache curl
 USER node
 
 COPY --from=production_build /home/node/package*.json ./
+COPY --from=production_build /home/node/vendor ./vendor
 COPY --from=production_build /home/node/src ./src/
 COPY --from=production_build /home/node/.public/ ./.public/
 
