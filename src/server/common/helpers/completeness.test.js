@@ -1,4 +1,4 @@
-import { completeness, isPresent } from './completeness.js'
+import { completeness, fieldCoverage, isPresent } from './completeness.js'
 
 function record(overrides = {}) {
   return {
@@ -57,5 +57,22 @@ describe('#completeness', () => {
       record({ lifecyclePhase: 'live', startPageUrl: 'https://example.gov.uk' })
     )
     expect(liveWithPage.missing).not.toContain('Start page')
+  })
+})
+
+describe('#fieldCoverage', () => {
+  test('reports per-field populated counts and percentages', () => {
+    const records = [
+      record(),
+      record({ owner: null, ownerEmail: null, description: null })
+    ]
+    const coverage = fieldCoverage(records)
+    const byLabel = Object.fromEntries(coverage.map((c) => [c.label, c]))
+
+    expect(byLabel['Owning organisation'].present).toBe(2)
+    expect(byLabel['Owning organisation'].pct).toBe(100)
+    expect(byLabel.Owner.present).toBe(1)
+    expect(byLabel.Owner.pct).toBe(50)
+    expect(byLabel.Description.present).toBe(1)
   })
 })

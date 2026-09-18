@@ -7,7 +7,10 @@ import {
   label,
   phaseTagClass
 } from '#/server/common/helpers/labels.js'
-import { completeness } from '#/server/common/helpers/completeness.js'
+import {
+  completeness,
+  fieldCoverage
+} from '#/server/common/helpers/completeness.js'
 
 // Build the options for a filter <select> from the values actually present in
 // the data, so we never offer an empty filter.
@@ -109,6 +112,7 @@ export const servicesController = {
           selected: complete === 'complete'
         }
       ],
+      coverage: fieldCoverage(all),
       shownCount: filtered.length,
       totalCount: all.length,
       incompleteTotal,
