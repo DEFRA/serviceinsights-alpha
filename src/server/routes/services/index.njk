@@ -3,6 +3,23 @@
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% macro coverageTable(coverage) %}
+  <table class="govuk-table app-coverage">
+    <tbody class="govuk-table__body">
+      {% for f in coverage %}
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">{{ f.label }}</th>
+          <td class="govuk-table__cell app-coverage__bar-cell">
+            <span class="app-coverage__bar"><span class="app-coverage__fill app-coverage__fill--{{ f.bucket }}"></span></span>
+          </td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">{{ f.pct }}% <span class="govuk-hint govuk-!-display-inline">({{ f.present }}/{{ f.total }})</span></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endmacro %}
 
 {% block content %}
   <div class="govuk-grid-row">
@@ -11,9 +28,14 @@
       <p class="govuk-body-l govuk-!-margin-bottom-2">
         {{ shownCount }} of {{ totalCount }} services{% if filtered %} (filtered){% endif %}
       </p>
-      <p class="govuk-body govuk-!-margin-bottom-6">
+      <p class="govuk-body govuk-!-margin-bottom-4">
         {{ incompleteTotal }} of {{ totalCount }} are missing data the management tool will collect.
       </p>
+
+      {{ govukDetails({
+        summaryText: "Field coverage across all " + totalCount + " services",
+        html: coverageTable(coverage)
+      }) }}
 
       <form method="get" action="/" class="govuk-!-margin-bottom-6">
         <div class="govuk-grid-row">
