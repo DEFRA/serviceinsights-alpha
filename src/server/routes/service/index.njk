@@ -29,7 +29,12 @@
         </div>
       {% endif %}
 
-      {{ govukSummaryList({ rows: summaryRows }) }}
+      <h2 class="govuk-heading-m">Service record</h2>
+      {{ govukSummaryList({ rows: coreRows }) }}
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-8">Additional information</h2>
+      <p class="govuk-hint">Secondary and background details carried over from the service directory.</p>
+      {{ govukSummaryList({ rows: extraRows }) }}
 
       {% if s.updatedAt %}
         <p class="govuk-body-s govuk-!-margin-top-6">

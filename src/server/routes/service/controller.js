@@ -63,22 +63,17 @@ export const serviceController = {
       return h.view('not-found', { pageTitle: 'Service not found' }).code(404)
     }
 
-    // Every field, shown whether or not it is populated, so the gaps are
-    // visible. Empty fields render "Not provided".
-    const summaryRows = [
+    const rows = (pairs) =>
+      pairs.map(([key, value]) => ({ key: { text: key }, value }))
+
+    // Core: the fields that define the service in the directory.
+    const coreRows = rows([
       ['Description', textValue(doc.description)],
       [
         'Owning organisation',
         labelValue(OWNING_ORGANISATION, doc.owningOrganisation)
       ],
       ['Delivery group', labelValue(DELIVERY_GROUP, doc.deliveryGroup)],
-      ['Directorate', textValue(doc.directorate)],
-      ['Programme', textValue(doc.programme)],
-      ['Service type', textValue(doc.type)],
-      [
-        'Digital service type',
-        labelValue(DIGITAL_SERVICE_TYPE, doc.digitalServiceType)
-      ],
       [
         'Primary user group',
         labelValue(
@@ -90,18 +85,30 @@ export const serviceController = {
       ['Owner', textValue(doc.owner)],
       ['Owner email', emailValue(doc.ownerEmail)],
       ['Service contact', contactValue(doc.serviceContact)],
-      ['Platform', labelValue(PLATFORM, doc.platform, doc.platformOther)],
       ['Lifecycle phase', labelValue(LIFECYCLE_PHASE, doc.lifecyclePhase)],
+      ['Start page', linkValue(doc.startPageUrl)],
+      ['Security classification', labelValue(SENSITIVITY, doc.sensitivity)]
+    ])
+
+    // Additional: secondary and background fields carried over from the
+    // service directory (the four *Id/Code fields are "background" in the schema).
+    const extraRows = rows([
+      ['Directorate', textValue(doc.directorate)],
+      ['Programme', textValue(doc.programme)],
+      ['Service type', textValue(doc.type)],
+      [
+        'Digital service type',
+        labelValue(DIGITAL_SERVICE_TYPE, doc.digitalServiceType)
+      ],
+      ['Platform', labelValue(PLATFORM, doc.platform, doc.platformOther)],
       ['Phase start date', textValue(doc.lifecyclePhaseStartDate)],
       ['Phase end date', textValue(doc.lifecyclePhaseEndDate)],
-      ['Start page', linkValue(doc.startPageUrl)],
-      ['Security classification', labelValue(SENSITIVITY, doc.sensitivity)],
       ['Data sensitivity', labelValue(SENSITIVITY, doc.dataSensitivity)],
       ['Web register ID', textValue(doc.webRegisterId)],
       ['Project Online code', textValue(doc.projectOnlineCode)],
       ['SOP code', textValue(doc.sopCode)],
       ['ServiceNow ID', textValue(doc.serviceNowId)]
-    ].map(([key, value]) => ({ key: { text: key }, value }))
+    ])
 
     const s = {
       name: doc.name,
@@ -115,7 +122,8 @@ export const serviceController = {
     return h.view('service/index', {
       pageTitle: s.name,
       s,
-      summaryRows,
+      coreRows,
+      extraRows,
       completeness: completeness(doc)
     })
   }
