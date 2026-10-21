@@ -35,6 +35,9 @@
   },
   "author": "Defra DDTS",
   "license": "OGL-UK-3.0",
+  "overrides": {
+    "shell-quote": "1.11.0"
+  },
   "dependencies": {
     "@defra/cdp-auditing": "0.6.1",
     "@defra/cdp-metrics": "0.6.0",
