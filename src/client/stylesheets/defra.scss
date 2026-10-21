@@ -5,6 +5,33 @@
 // is satisfied.
 @import '@defra/frontend/sass';
 
+// Prominent preview warning — this reader is a data preview, not the live
+// Service Insights service. GOV.UK yellow, high-contrast black text.
+.app-preview-banner {
+  background-color: #ffdd00;
+  border-bottom: 4px solid #0b0c0c;
+}
+
+.app-preview-banner__text {
+  margin: 0;
+  padding: 12px 0;
+  color: #0b0c0c;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.app-preview-banner__tag {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 2px 8px;
+  background-color: #0b0c0c;
+  color: #ffdd00;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.875rem;
+}
+
 // App-specific styles for the directory pages.
 .app-internal-flag {
   display: block;
