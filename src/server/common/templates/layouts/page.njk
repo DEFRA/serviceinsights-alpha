@@ -34,6 +34,17 @@
   {{ govukServiceNavigation({
     navigation: navigation
   }) }}
+
+  <div class="app-preview-banner" role="region" aria-label="Preview notice">
+    <div class="govuk-width-container">
+      <p class="app-preview-banner__text">
+        <span class="app-preview-banner__tag">Preview</span>
+        This is a read-only preview for exploring service directory data. It is
+        <strong>not the Service Insights service</strong>, and the data shown is
+        incomplete and will change.
+      </p>
+    </div>
+  </div>
 {% endblock %}
 
 {% block pageTitle %}
